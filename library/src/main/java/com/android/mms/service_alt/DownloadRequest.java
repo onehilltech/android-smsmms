@@ -139,6 +139,7 @@ public class DownloadRequest extends MmsRequest
     notifyOfDownload (context);
 
     Log.d (TAG, "DownloadRequest.persistIfRequired");
+
     if (response == null || response.length < 1)
     {
       Log.e (TAG, "DownloadRequest.persistIfRequired: empty response");
@@ -260,48 +261,9 @@ public class DownloadRequest extends MmsRequest
     return null;
   }
 
-  private static void notifyOfDownload (Context context)
+  protected static void notifyOfDownload (Context context)
   {
     BroadcastUtils.sendExplicitBroadcast (context, new Intent (), Transaction.NOTIFY_OF_MMS);
-
-    // TODO, not sure what this is doing... sending a broadcast that
-    // the download has finished from a specific user account I believe.
-//        final Intent intent = new Intent("android.provider.Telephony.MMS_DOWNLOADED");
-//        intent.addFlags(Intent.FLAG_RECEIVER_NO_ABORT);
-//
-//        // Get a list of currently started users.
-//        int[] users = null;
-//        try {
-//            users = ActivityManagerNative.getDefault().getRunningUserIds();
-//        } catch (RemoteException re) {
-//        }
-//        if (users == null) {
-//            users = new int[] {UserHandle.ALL.getIdentifier()};
-//        }
-//        final UserManager userManager =
-//                (UserManager) context.getSystemService(Context.USER_SERVICE);
-//
-//        // Deliver the broadcast only to those running users that are permitted
-//        // by user policy.
-//        for (int i = users.length - 1; i >= 0; i--) {
-//            UserHandle targetUser = new UserHandle(users[i]);
-//            if (users[i] != UserHandle.USER_OWNER) {
-//                // Is the user not allowed to use SMS?
-//                if (userManager.hasUserRestriction(UserManager.DISALLOW_SMS, targetUser)) {
-//                    continue;
-//                }
-//                // Skip unknown users and managed profiles as well
-//                UserInfo info = userManager.getUserInfo(users[i]);
-//                if (info == null || info.isManagedProfile()) {
-//                    continue;
-//                }
-//            }
-//            context.sendOrderedBroadcastAsUser(intent, targetUser,
-//                    android.Manifest.permission.RECEIVE_MMS,
-//                    18,
-//                    null,
-//                    null, Activity.RESULT_OK, null, null);
-//        }
   }
 
   /**
@@ -394,7 +356,7 @@ public class DownloadRequest extends MmsRequest
     return null;
   }
 
-  private static void setErrorType (Context context, String locationUrl, int errorType)
+  protected static void setErrorType (Context context, String locationUrl, int errorType)
   {
     Long msgId = getId (context, locationUrl);
     if (msgId == null)
