@@ -356,7 +356,7 @@ public class DownloadRequest extends MmsRequest
     return null;
   }
 
-  protected static void setErrorType (Context context, String locationUrl, int errorType)
+  static void setErrorType (Context context, String locationUrl, int errorType)
   {
     Long msgId = getId (context, locationUrl);
     if (msgId == null)
